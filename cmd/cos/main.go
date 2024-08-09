@@ -1,5 +1,0 @@
-package cos
-
-func main() {
-
-}

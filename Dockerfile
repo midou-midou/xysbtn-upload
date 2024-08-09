@@ -1,24 +1,19 @@
-FROM golang:1.16 AS builder
+FROM node:10-alpine
 
-COPY . /src
-WORKDIR /src
-
-RUN GOPROXY=https://goproxy.cn make build
-
-FROM debian:stable-slim
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		ca-certificates  \
-        netbase \
-        && rm -rf /var/lib/apt/lists/ \
-        && apt-get autoremove -y && apt-get autoclean -y
-
-COPY --from=builder /src/bin /app
+ENV EXPOSE_PORT 3000
+ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 
-EXPOSE 8000
-EXPOSE 9000
-VOLUME /data/conf
+COPY package*.json ./
 
-CMD ["./server", "-conf", "/data/conf"]
+RUN npm install -g @babel/cli @babel/core \
+    && npm install
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE ${EXPOSE_PORT}
+
+ENTRYPOINT [ "node", "/app/dist/app.js" ]
