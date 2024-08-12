@@ -30,7 +30,7 @@ app
   .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user\/login|\/assets/] }))
   .use(KoaBody({
     multipart: true,
-    parsedMethods: ['POST', 'PUT', 'PATCH', 'GET', 'HEAD', 'DELETE'], // parse GET, HEAD, DELETE requests
+    parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'], // parse GET, HEAD, DELETE requests
     formidable: {
       uploadDir: path.join(__dirname, '../assets/uploads/tmp')
     },
