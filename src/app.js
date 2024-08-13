@@ -10,6 +10,7 @@ import ErrorRoutesCatch from './middleware/ErrorRoutesCatch'
 import ErrorRoutes from './routes/error-routes'
 import jwt from 'koa-jwt'
 import fs from 'fs'
+import logger from './middleware/logger'
 // import PluginLoader from './lib/PluginLoader'
 
 const app = new Koa2()
@@ -25,12 +26,11 @@ app
     credentials: false
   }))
 
+  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user|\/login|\/assets/] }))
   .use(ErrorRoutesCatch())
-  // .use(KoaStatic('assets', path.resolve(__dirname, '../assets'))) // Static resource
-  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user\/login|\/assets/] }))
   .use(KoaBody({
     multipart: true,
-    parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'], // parse GET, HEAD, DELETE requests
+    parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'],
     formidable: {
       uploadDir: path.join(__dirname, '../assets/uploads/tmp')
     },
@@ -42,16 +42,11 @@ app
   .use(MainRoutes.routes())
   .use(MainRoutes.allowedMethods())
   .use(ErrorRoutes())
+  .use(logger)
 
-if (env === 'development') { // logger
-  app.use((ctx, next) => {
-    const start = new Date()
-    return next().then(() => {
-      const ms = new Date() - start
-      console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-    })
-  })
-}
+app.on('error', (err) => {
+  console.log(err);
+})
 
 app.listen(systemConfig.API_server_port)
 
