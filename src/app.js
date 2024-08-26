@@ -1,9 +1,7 @@
 import Koa2 from 'koa'
 import KoaBody from 'koa-body'
 import cors from 'koa2-cors'
-import {
-  System as systemConfig
-} from './config'
+import config from './config'
 import path from 'path'
 import MainRoutes from './routes/main-routes'
 import ErrorRoutesCatch from './middleware/ErrorRoutesCatch'
@@ -20,14 +18,14 @@ const publicKey = fs.readFileSync(path.join(__dirname, '../publicKey.pub'))
 
 app
   .use(cors({
-    origin: () => env === 'development' ? '*' : systemConfig.HTTP_server_host,
+    origin: () => env === 'development' ? '*' : config.system.HTTP_server_host,
     allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
     allowMethods: ['PUT', 'POST', 'GET', 'DELETE', 'OPTIONS'],
     credentials: false
   }))
-
-  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user|\/login|\/assets/] }))
+  // 判断错误路由
   .use(ErrorRoutesCatch())
+  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user|\/login|\/assets/] }))
   .use(KoaBody({
     multipart: true,
     parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'],
@@ -44,12 +42,10 @@ app
   .use(ErrorRoutes())
   .use(logger)
 
-app.on('error', (err) => {
-  console.log(err);
-})
 
-app.listen(systemConfig.API_server_port)
 
-console.log('Now start API server on port ' + systemConfig.API_server_port + '...')
+app.listen(config.system.API_server_port)
+
+console.log('Now start API server on port ' + config.system.API_server_port + '...')
 
 export default app

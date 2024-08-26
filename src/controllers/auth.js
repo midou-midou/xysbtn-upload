@@ -12,7 +12,7 @@ const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
 /**
  * 检查授权是否合法
  */
-const CheckAuth = (ctx, next) => {
+const checkAuth = (ctx, next) => {
   const token = ctx.request.header.authorization
   try {
     const decoded = jwt.verify(token.substr(7), publicKey)
@@ -39,11 +39,21 @@ const CheckAuth = (ctx, next) => {
   }
 }
 
+export const login = (ctx, next) => {
+  // throw new Error('自定义抛出错误')
+  ctx.body = '登录成功'
+  next()
+}
+
+export const logout = (ctx, next) => {
+  
+}
+
 export const Post = (ctx, next) => {
   switch (ctx.params.action) {
     case 'check':
-      return CheckAuth(ctx).then(result => { ctx.body = result; next() })
+      return checkAuth(ctx).then(result => { ctx.body = result; next() })
     default:
-      return CheckAuth(ctx).then(result => { ctx.body = result; next() })
+      return checkAuth(ctx).then(result => { ctx.body = result; next() })
   }
 }

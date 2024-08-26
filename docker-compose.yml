@@ -1,0 +1,14 @@
+services:
+  xysbtn-pg:
+    image: postgres
+    container_name: xysbtn-pg
+    # volumes:
+    #   - ./config/rcon.yaml:/rcon.yaml
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRES_USER=xysbtn
+      - POSTGRES_PASSWORD=m6MOjZzM
+      - POSTGRES_DB=xysbtn_db
+    ports:
+      - 5432:5432
+    restart: always

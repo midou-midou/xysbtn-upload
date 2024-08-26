@@ -16,14 +16,9 @@ log4js.configure({
     // 自定义category为response，记录服务器的响应情况 用户访问服务的情况
     response: {
       type: 'dateFile', // 以日期命名的文件记录日志
-      filename: path.join('logs/', 'access/response'),
+      filename: path.join(__dirname, 'logs/', 'access/response'),
       pattern: 'yyyy-MM-dd.log', //日志输出模式
       alwaysIncludePattern: true,
-
-      // dateFile类型的appender没有这个选项
-      maxLogSize: 1024 * 1000 * 100,
-      // dateFile类型的appender没有这个选项
-      backups: 1
     },
 
     console: {
@@ -89,19 +84,21 @@ logger.resLogger = (ctx, resTime) => {
   }
 }
 
-// 控制台输出
 logger.log = console
 
 export default async (ctx, next) => {
   const start = new Date()
-  await next()
-  const end = new Date() - start
-  // 生产环境下，使用中间件记录日志，使用console.log打印消息。
-  // 其他环境下，使用log4js的console打印信息。
-  if (process.env.NODE_ENV === 'production') {
-    resLogger(ctx, end)
-    console.log((`${ctx.method} ${ctx.url} - ${end}ms`))
-  } else {
+  try {
+    await next()
+    let end = new Date() - start
+    if (process.env.NODE_ENV === 'production') {
+      resLogger(ctx, end)
+    }
     logger.log.info(`${ctx.method} ${ctx.url} - ${end}ms`)
+  } catch (error) {
+    if (process.env.NODE_ENV === 'production') {
+      errorLogger(ctx, error)
+    }
+    logger.log.error(`${ctx.method} ${ctx.url} ErrorReason: ${error}`)
   }
 }

@@ -12,4 +12,4 @@ export default router
   .post('/api/:name', controllers.api.Post)
   .put('/api/:name', controllers.api.Put)
   .del('/api/:name', controllers.api.Delete)
-  .post('/auth/:action', controllers.auth.Post)
+  .post('/login', controllers.auth.login)
