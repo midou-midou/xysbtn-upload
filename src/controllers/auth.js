@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
+import authService from '../services/auth'
 
 const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
 
@@ -41,12 +42,13 @@ const checkAuth = (ctx, next) => {
 
 export const login = (ctx, next) => {
   // throw new Error('自定义抛出错误')
-  ctx.body = '登录成功'
+  // ctx.body = '登录成功'
+  authService()
   next()
 }
 
 export const logout = (ctx, next) => {
-  
+
 }
 
 export const Post = (ctx, next) => {

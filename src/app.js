@@ -8,7 +8,7 @@ import ErrorRoutesCatch from './middleware/ErrorRoutesCatch'
 import ErrorRoutes from './routes/error-routes'
 import jwt from 'koa-jwt'
 import fs from 'fs'
-import logger from './middleware/logger'
+import {default as loggerMiddleware, logger} from './middleware/logger'
 // import PluginLoader from './lib/PluginLoader'
 
 const app = new Koa2()
@@ -40,12 +40,14 @@ app
   .use(MainRoutes.routes())
   .use(MainRoutes.allowedMethods())
   .use(ErrorRoutes())
-  .use(logger)
+  .use(loggerMiddleware)
+
+
 
 
 
 app.listen(config.system.API_server_port)
 
-console.log('Now start API server on port ' + config.system.API_server_port + '...')
+logger.info('Now start API server on port ' + config.system.API_server_port + '...')
 
 export default app

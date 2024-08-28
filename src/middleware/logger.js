@@ -40,7 +40,7 @@ log4js.configure({
   replaceConsole: true
 })
 
-let logger = {}
+let log = {}
 
 // 自定义输出格式，确定哪些内容输出到日志文件中
 const formatError = (ctx, err) => {
@@ -71,34 +71,30 @@ let resLogger = log4js.getLogger('response')
 let console = log4js.getLogger()
 
 // 封装错误日志
-logger.errLogger = (ctx, error) => {
+log.errLogger = (ctx, error) => {
   if (ctx && error) {
     errorLogger.error(formatError(ctx, error))
   }
 }
 
 // 封装响应日志
-logger.resLogger = (ctx, resTime) => {
+log.resLogger = (ctx, resTime) => {
   if (ctx) {
     resLogger.info(formatRes(ctx, resTime))
   }
 }
 
-logger.log = console
+log.log = console
+
+export const logger = console
 
 export default async (ctx, next) => {
   const start = new Date()
   try {
     await next()
     let end = new Date() - start
-    if (process.env.NODE_ENV === 'production') {
-      resLogger(ctx, end)
-    }
-    logger.log.info(`${ctx.method} ${ctx.url} - ${end}ms`)
+    log.log.info(`${ctx.method} ${ctx.url} - ${end}ms`)
   } catch (error) {
-    if (process.env.NODE_ENV === 'production') {
-      errorLogger(ctx, error)
-    }
-    logger.log.error(`${ctx.method} ${ctx.url} ErrorReason: ${error}`)
+    log.log.error(`${ctx.method} ${ctx.url} ErrorReason: ${error}`)
   }
 }
