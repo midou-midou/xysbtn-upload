@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 
 export default sequelize.define('clfy', {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     primaryKey: true,
     unique: true
@@ -16,10 +16,11 @@ export default sequelize.define('clfy', {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
-      model: 'auth',
+      model: 'uploader',
       key: 'name'
     }
   }
 }, {
-  tableName: 'clfy'
+  tableName: 'clfy',
+  timestamps: false
 })

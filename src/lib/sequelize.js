@@ -3,7 +3,8 @@ import {logger} from '../middleware/logger';
 import config from '../config'
 
 const sequelize = new Sequelize(config.db.url, {
-  logging: (...msg) => logger.info(...msg),
+  // logging: (...msg) => logger.info(...msg),
+  logging: false,
   pool: {
     max: 50,
     min: 0,

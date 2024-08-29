@@ -9,6 +9,7 @@ import ErrorRoutes from './routes/error-routes'
 import jwt from 'koa-jwt'
 import fs from 'fs'
 import {default as loggerMiddleware, logger} from './middleware/logger'
+
 // import PluginLoader from './lib/PluginLoader'
 
 const app = new Koa2()
@@ -25,7 +26,7 @@ app
   }))
   // 判断错误路由
   .use(ErrorRoutesCatch())
-  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user|\/login|\/assets/] }))
+  .use(jwt({ secret: publicKey, cookie: 'token' }).unless({ path: [/^\/login|\/assets/] }))
   .use(KoaBody({
     multipart: true,
     parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'],

@@ -11,8 +11,10 @@ export default sequelize.define('uploader', {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   }
 }, {
-  tableName: 'uploader'
+  tableName: 'uploader',
+  timestamps: false
 })

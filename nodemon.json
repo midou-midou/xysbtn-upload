@@ -1,0 +1,14 @@
+{
+  "script": "build/dev-server.js",
+  "execMap": {
+    "js": "jsScript"
+  },
+  "verbose": true,
+  "ignore": [
+    "build /*.js", "dist/*.js", "nodemon.json", ".git", "node_modules/**/node_modules", "gulpfile.js"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json"
+}
