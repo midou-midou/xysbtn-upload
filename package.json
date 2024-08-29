@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "",
   "scripts": {
-    "dev": "nodemon -h",
+    "dev": "nodemon --config ./nodemon.json ./build/dev-server.js",
     "build": "babel src -d dist",
     "prod": "node dist/app.js",
     "test": "jest"
@@ -38,18 +38,7 @@
     "node": ">= 7.8.0",
     "npm": ">= 4.2.0"
   },
-  "nodemonConfig": {
-    "script": "build/dev-server.js",
-    "execMap": {
-      "js": "jsScript"
-    },
-    "verbose": true,
-    "ignore": [
-      "build /*.js", "dist/*.js", "nodemon.json", ".git", "node_modules/**/node_modules", "gulpfile.js"
-    ],
-    "env": {
-      "NODE_ENV": "development"
-    },
-    "ext": "js json"
+  "volta": {
+    "node": "18.19.0"
   }
 }
