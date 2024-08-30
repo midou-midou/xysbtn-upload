@@ -1,21 +1,21 @@
 import Koa2 from 'koa'
 import KoaBody from 'koa-body'
 import cors from 'koa2-cors'
-import config from './config'
+import config from './config/index.js'
 import path from 'path'
-import MainRoutes from './routes/main-routes'
-import ErrorRoutesCatch from './middleware/ErrorRoutesCatch'
-import ErrorRoutes from './routes/error-routes'
+import MainRoutes from './routes/mainRoutes.js'
+import errorRoutesCatch from './middleware/errorRoutesCatch.js'
+import errorRoutes from './routes/errorRoutes.js'
 import jwt from 'koa-jwt'
 import fs from 'fs'
-import {default as loggerMiddleware, logger} from './middleware/logger'
+import {default as loggerMiddleware, logger} from './middleware/logger.js'
 
 // import PluginLoader from './lib/PluginLoader'
 
 const app = new Koa2()
 const env = process.env.NODE_ENV // Current mode
 
-const publicKey = fs.readFileSync(path.join(__dirname, '../publicKey.pub'))
+const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../publicKey.pub'))
 
 app
   .use(cors({
@@ -25,13 +25,13 @@ app
     credentials: false
   }))
   // 判断错误路由
-  .use(ErrorRoutesCatch())
+  .use(errorRoutesCatch())
   .use(jwt({ secret: publicKey, cookie: 'token' }).unless({ path: [/^\/login|\/assets/] }))
   .use(KoaBody({
     multipart: true,
     parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'],
     formidable: {
-      uploadDir: path.join(__dirname, '../assets/uploads/tmp')
+      uploadDir: path.join('../assets/uploads/tmp')
     },
     jsonLimit: '2mb',
     formLimit: '2mb',
@@ -40,7 +40,7 @@ app
   // .use(PluginLoader(SystemConfig.System_plugin_path))
   .use(MainRoutes.routes())
   .use(MainRoutes.allowedMethods())
-  .use(ErrorRoutes())
+  .use(errorRoutes())
   .use(loggerMiddleware)
 
 

@@ -1,4 +1,4 @@
-import {auth as authModel} from "../models";
+import {auth as authModel} from "../models/index.js";
 
 export default function authService(){
   this.uploaderName = ''

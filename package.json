@@ -2,13 +2,16 @@
   "name": "voice-upload",
   "version": "1.0.0",
   "author": "",
+  "type": "module",
+  "main": "./src/app.js",
   "scripts": {
-    "dev": "nodemon --config ./nodemon.json ./build/dev-server.js",
+    "dev": "nodemon --config ./nodemon.json ./src/app.js",
     "build": "babel src -d dist",
     "prod": "node dist/app.js",
     "test": "jest"
   },
   "dependencies": {
+    "fs-extra": "^11.2.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
@@ -27,7 +30,6 @@
     "@babel/plugin-external-helpers": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.25.4",
-    "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^25.3.0",
@@ -39,6 +41,6 @@
     "npm": ">= 4.2.0"
   },
   "volta": {
-    "node": "18.19.0"
+    "node": "20.11.0"
   }
 }

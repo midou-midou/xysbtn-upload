@@ -5,13 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "name": "nodemon debug",
+      "program": "${workspaceFolder}/src/app.js",
       "request": "launch",
-      "name": "启动程序",
+      "restart": true,
+      "runtimeExecutable": "nodemon",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/build/dev-server.js"
+      "type": "node"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "node debug",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/app.js"
     }
   ]
 }

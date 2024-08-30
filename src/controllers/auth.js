@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
-import authService from '../services/auth'
-import { responseData } from '../tool/response'
+import authService from '../services/auth.js'
+import { responseData } from '../tool/response.js'
 
-const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
+const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../../publicKey.pub'))
 
 /**
  * 检查授权是否合法

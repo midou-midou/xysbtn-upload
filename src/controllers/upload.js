@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { System as SystemConfig } from '../config'
+import { default as config } from '../config/index.js'
 
 export default (ctx) => {
   // 设置允许跨域的域名称
@@ -24,7 +24,7 @@ export default (ctx) => {
   console.log('parse ok')
 
   // 文件将要上传到哪个文件夹下面
-  var uploadfolderpath = path.join(__dirname, '../../assets/uploads')
+  var uploadfolderpath = path.join( '../../assets/uploads')
 
   var files = ctx.request.body.files
 
@@ -61,7 +61,7 @@ export default (ctx) => {
   // 保存成功
   console.log('fs.rename done')
   // 拼接url地址
-  result = SystemConfig.API_server_type + SystemConfig.API_server_host + ':' + SystemConfig.API_server_port + '/assets/uploads' + filename
+  result = config.system.API_server_type + config.system.API_server_host + ':' + config.system.API_server_port + '/assets/uploads' + filename
 
   // 返回结果
   ctx.body = result

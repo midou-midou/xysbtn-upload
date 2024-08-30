@@ -8,7 +8,7 @@ log4js.configure({
     // 自定义category为error，记录服务器报错信息
     error: {
       type: 'file',           //日志类型 指定单一文件存储
-      filename: path.join(__dirname, 'logs/', 'error/error.log'), //日志输出位置，当目录文件或文件夹不存在时自动创建
+      filename: path.join( 'logs/', 'error/error.log'), //日志输出位置，当目录文件或文件夹不存在时自动创建
       maxLogSize: 1024 * 1000 * 100, // 文件最大存储空间，单位是字节 1024k 1m
       backups: 100  //当文件内容超过文件存储空间时，备份文件的数量
     },
@@ -16,7 +16,7 @@ log4js.configure({
     // 自定义category为response，记录服务器的响应情况 用户访问服务的情况
     response: {
       type: 'dateFile', // 以日期命名的文件记录日志
-      filename: path.join(__dirname, 'logs/', 'access/response'),
+      filename: path.join( 'logs/', 'access/response'),
       pattern: 'yyyy-MM-dd.log', //日志输出模式
       alwaysIncludePattern: true,
     },

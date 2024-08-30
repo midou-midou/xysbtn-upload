@@ -1,6 +1,6 @@
-import auth from "./auth";
-import clfy from "./clfy";
-import voice from "./voice";
+import auth from "./auth.js";
+import clfy from "./clfy.js";
+import voice from "./voice.js";
 
 ;(async function initModel() {
   await auth.sync()

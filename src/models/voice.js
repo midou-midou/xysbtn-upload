@@ -1,4 +1,4 @@
-import sequelize from "../lib/sequelize";
+import sequelize from "../lib/sequelize.js";
 import { DataTypes } from "sequelize";
 
 export default sequelize.define('voice', {

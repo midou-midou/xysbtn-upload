@@ -1,6 +1,6 @@
-import upload from './upload'
-import * as api from './api'
-import * as auth from './auth'
+import upload from './upload.js'
+import * as api from './api.js'
+import * as auth from './auth.js'
 
 export default {
   upload,

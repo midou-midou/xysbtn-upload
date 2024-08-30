@@ -9,7 +9,7 @@ export default {
     HTTP_server_host: 'www.XXX.com', // HTTP服务器地址,请勿添加"http://" （即前端调用使用的服务器地址，如果是APP请设置为 * ）
     HTTP_server_port: '65534', // HTTP服务器端口号
     System_country: 'zh-cn', // 所在国家的国家代码
-    System_plugin_path: path.join(__dirname, './plugins'), // 插件路径
+    System_plugin_path: path.join('./plugins'), // 插件路径
     Session_Key: 'RESTfulAPI', // 生产环境务必随机设置一个值
   },
   db: {
