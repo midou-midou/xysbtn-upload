@@ -3,9 +3,8 @@ import KoaBody from 'koa-body'
 import cors from 'koa2-cors'
 import config from './config/index.js'
 import path from 'path'
-import MainRoutes from './routes/mainRoutes.js'
-import errorRoutesCatch from './middleware/errorRoutesCatch.js'
-import errorRoutes from './routes/errorRoutes.js'
+import MainRoutes from './routes/index.js'
+import routeCatch from './middleware/routeCatch.js'
 import jwt from 'koa-jwt'
 import fs from 'fs'
 import {default as loggerMiddleware, logger} from './middleware/logger.js'
@@ -15,7 +14,7 @@ import {default as loggerMiddleware, logger} from './middleware/logger.js'
 const app = new Koa2()
 const env = process.env.NODE_ENV // Current mode
 
-const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../publicKey.pub'))
+const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../publicKey.pub')).toString()
 
 app
   .use(cors({
@@ -24,9 +23,8 @@ app
     allowMethods: ['PUT', 'POST', 'GET', 'DELETE', 'OPTIONS'],
     credentials: false
   }))
-  // 判断错误路由
-  .use(errorRoutesCatch())
-  .use(jwt({ secret: publicKey, cookie: 'token' }).unless({ path: [/^\/login|\/assets/] }))
+  .use(routeCatch())
+  .use(jwt({ secret: publicKey, cookie: 'token' }).unless({ path: [/^\/login|\/assets|\/voice/] }))
   .use(KoaBody({
     multipart: true,
     parsedMethods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS'],
@@ -40,12 +38,7 @@ app
   // .use(PluginLoader(SystemConfig.System_plugin_path))
   .use(MainRoutes.routes())
   .use(MainRoutes.allowedMethods())
-  .use(errorRoutes())
   .use(loggerMiddleware)
-
-
-
-
 
 app.listen(config.system.API_server_port)
 

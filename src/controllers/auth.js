@@ -6,15 +6,12 @@ import { responseData } from '../tool/response.js'
 
 const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../../publicKey.pub'))
 
-/**
- * 检查授权是否合法
- */
+// 检查jwt是否合法
 const checkAuth = (ctx, next) => {
   // const token = ctx.request.header.authorization
   const token = ctx.cookies.get('token')
   try {
     const decoded = jwt.verify(token, publicKey)
-    console.log(decoded);
     if (decoded.name) {
       return {
         status: 1,
@@ -52,16 +49,8 @@ export const login = async (ctx, next) => {
 }
 
 export const logout = (ctx, next) => {
-  let {status, result} = checkAuth(ctx)
-  if (status === 1) {
-    ctx.cookies.set('token', ctx.cookies.get('token'), {httpOnly: true, maxAge: -1})
-    ctx.body = responseData(200, '退出成功')
-    return
-  }
-  console.log(status, result);
-  ctx.throw(status, result)
-
-
+  ctx.cookies.set('token', ctx.cookies.get('token'), {httpOnly: true, maxAge: -1})
+  ctx.body = responseData(200, '退出成功')
 }
 
 export const Post = (ctx, next) => {

@@ -19,6 +19,10 @@ export default sequelize.define('clfy', {
       model: 'uploader',
       key: 'name'
     }
+  },
+  owner: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   tableName: 'clfy',

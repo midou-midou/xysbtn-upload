@@ -1,9 +1,9 @@
 import upload from './upload.js'
-import * as api from './api.js'
 import * as auth from './auth.js'
+import * as voice from './voice.js'
 
 export default {
   upload,
-  api,
-  auth
+  auth,
+  voice
 }
