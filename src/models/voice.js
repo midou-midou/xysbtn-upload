@@ -1,7 +1,8 @@
 import sequelize from "../lib/sequelize.js";
 import { DataTypes } from "sequelize";
+import clfyModel from "./clfy.js";
 
-export default sequelize.define('voice', {
+const voiceModel = sequelize.define('voice', {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -27,7 +28,7 @@ export default sequelize.define('voice', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  clfy: {
+  clfyId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -38,3 +39,7 @@ export default sequelize.define('voice', {
   tableName: 'voice',
   timestamps: false
 })
+
+voiceModel.belongsTo(clfyModel, {foreignKey: 'clfyId', targetKey: 'id'})
+
+export default voiceModel

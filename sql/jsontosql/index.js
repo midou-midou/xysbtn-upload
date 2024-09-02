@@ -41,29 +41,32 @@ jsons.forEach((fileName) => {
   }
 })
 
-const t = await sequelize.transaction();
 
 // console.log('clfys', clfys);
 
 // console.log('voices', voices);
 
 // clfy to db
-try {
-  for (let c of clfys) await clfy.create(c, { transaction: t });
-  await t.commit();
-
-} catch (error) {
-  logger.error(error)
-  await t.rollback();
-}
+;(async () => {
+  try {
+    await sequelize.transaction(async (t) => {
+      for (let c of clfys) {
+        await clfy.create(c, { transaction: t });
+      }
+    });
+  } catch (error) {
+    logger.error(error)
+  }
+})()
 
 
 // voice to db
-try {
-  for (let v of voices) await voice.create(v, { transaction: t });
-  await t.commit();
-
-} catch (error) {
-  logger.error(error)
-  await t.rollback();
-}
+;(async () => {
+  try {
+    let t = await sequelize.transaction(async (t) => {
+      for (let v of voices) await voice.create(v, { transaction: t });
+    });
+  } catch (error) {
+    logger.error(error)
+  }
+})()
