@@ -1,5 +1,5 @@
 import path from "path";
-import { voice, clfy } from "../../src/models/index.js";
+import { voice, clfy, auth } from "../../src/models/index.js";
 import fs from 'fs'
 import { logger } from "../../src/middleware/logger.js";
 import sequelize from "../../src/lib/sequelize.js";
@@ -34,19 +34,19 @@ jsons.forEach((fileName) => {
           path: v.path,
           creator: v.creator,
           owner: key,
-          clfy: c.clfy.id
+          clfyId: c.clfy.id
         })
       }
     }
   }
 })
 
+await auth.create({name: 'midou'}).catch(() => {throw new Error('初始化uploador错误')})
 
 // console.log('clfys', clfys);
 
 // console.log('voices', voices);
 
-// clfy to db
 ;(async () => {
   try {
     await sequelize.transaction(async (t) => {
@@ -57,16 +57,11 @@ jsons.forEach((fileName) => {
   } catch (error) {
     logger.error(error)
   }
-})()
+})().then(async () => {
+  await sequelize.transaction(async (t) => {
+    for (let v of voices) await voice.create(v, { transaction: t });
+  });
+}).catch((error) => {
+  logger.error(error)
+})
 
-
-// voice to db
-;(async () => {
-  try {
-    let t = await sequelize.transaction(async (t) => {
-      for (let v of voices) await voice.create(v, { transaction: t });
-    });
-  } catch (error) {
-    logger.error(error)
-  }
-})()

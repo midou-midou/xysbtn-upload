@@ -26,3 +26,13 @@ export const dataToView = (voices = []) => {
 
   return view
 }
+
+export const mergeVoice = (uploadVoices = {}, voicesInfo = []) => 
+  voicesInfo.map(voiceInfo => {
+    for (let key in uploadVoices) {
+      if (uploadVoices[key].name === voiceInfo.path) {
+        let res = {res: uploadVoices[key].res, status: uploadVoices[key].status}
+        return Object.assign(res, voiceInfo)
+      }
+    }
+  })

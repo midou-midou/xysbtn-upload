@@ -7,12 +7,14 @@ import { responseData } from '../tool/response.js'
 const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../../publicKey.pub'))
 
 // 检查jwt是否合法
-const checkAuth = (ctx, next) => {
+export const checkAuth = async (ctx, next) => {
   // const token = ctx.request.header.authorization
   const token = ctx.cookies.get('token')
+  let service = new authService()
   try {
     const decoded = jwt.verify(token, publicKey)
-    if (decoded.name) {
+    // name先从pg查，后面改到redis
+    if (decoded.name && decoded.name === await service.getUploader(decoded.name)) {
       return {
         status: 1,
         result: decoded.name

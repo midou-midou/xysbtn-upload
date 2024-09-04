@@ -2798,6 +2798,11 @@ koa-router@^8.0.8:
     path-to-regexp "1.x"
     urijs "^1.19.2"
 
+koa-sslify@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.npmmirror.com/koa-sslify/-/koa-sslify-5.0.1.tgz#b94ffead65a3e239a0324ff7516cb0fde996a1e1"
+  integrity sha512-QwQgMvNPyePpngghYZxeuPzeQqMOFYUXiKu8pd4wz9rd7ZmoOq4VKtoEIjctLt3Qcfv2aHL/0UIRAmIK4qDczg==
+
 koa-unless@1.0.7:
   version "1.0.7"
   resolved "https://registry.npmmirror.com/koa-unless/-/koa-unless-1.0.7.tgz#b9df375e2b4da3043918d48622520c2c0b79f032"
