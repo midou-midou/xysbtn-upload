@@ -2,12 +2,11 @@ import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
 import authService from '../services/auth.js'
-import { responseData } from '../tool/response.js'
 
 const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../../publicKey.pub'))
 
 // 检查jwt是否合法
-export const checkAuth = async (ctx, next) => {
+export const checkAuth = async ctx => {
   // const token = ctx.request.header.authorization
   const token = ctx.cookies.get('token')
   let service = new authService()
@@ -33,33 +32,21 @@ export const checkAuth = async (ctx, next) => {
   }
 }
 
-const signJwtToken = (name) => {
+const signJwtToken = name => {
   return jwt.sign({name}, publicKey, {expiresIn: '7d'})
 }
 
 export const login = async (ctx, next) => {
-  try {
-    let service = new authService()
-    let {name} = await service.login(ctx.request.body)
-    ctx.body = responseData(200, '登录成功')
-    // setCookie
-    ctx.cookies.set('token', signJwtToken(name), {httpOnly: true, maxAge: 604800000})
-    next()
-  } catch (error) {
-    throw error
-  }
+  let service = new authService()
+  let {name} = await service.login(ctx.request.body)
+  ctx.body =  '登录成功'
+  // setCookie
+  ctx.cookies.set('token', signJwtToken(name), {httpOnly: true, maxAge: 604800000})
+  next()
 }
 
-export const logout = (ctx, next) => {
+export const logout = ctx => {
   ctx.cookies.set('token', ctx.cookies.get('token'), {httpOnly: true, maxAge: -1})
-  ctx.body = responseData(200, '退出成功')
+  ctx.body =  '退出成功'
 }
 
-export const Post = (ctx, next) => {
-  switch (ctx.params.action) {
-    case 'check':
-      return checkAuth(ctx).then(result => { ctx.body = result; next() })
-    default:
-      return checkAuth(ctx).then(result => { ctx.body = result; next() })
-  }
-}

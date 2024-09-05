@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 export const dataToView = (voices = []) => {
   if (voices.length === 0) return
   let view = []
@@ -27,12 +29,38 @@ export const dataToView = (voices = []) => {
   return view
 }
 
-export const mergeVoice = (uploadVoices = {}, voicesInfo = []) => 
-  voicesInfo.map(voiceInfo => {
-    for (let key in uploadVoices) {
-      if (uploadVoices[key].name === voiceInfo.path) {
-        let res = {res: uploadVoices[key].res, status: uploadVoices[key].status}
-        return Object.assign(res, voiceInfo)
-      }
+export const mergeVoice = (uploadVoices = {}, voicesInfoList = []) => {
+  // 去重
+  let waitUpload = []
+  let repeat = []
+
+  const mergeFileToInfo = (file, info) => {
+    let {res, status, name, path, size, type} = file
+    waitUpload = [...waitUpload, Object.assign({res, status, name, tmpPath: path, size, type}, info)]
+  }
+
+  voicesInfoList.forEach(voiceInfo => {
+    let file = uploadVoices[voiceInfo.path+voiceInfo.clfyId]
+    if (!file) return
+    if (waitUpload.filter(item => item.path === voiceInfo.path && item.clfyId === voiceInfo.clfyId).length > 0) return
+    // 如果formData key重复，会自动合并为一个数组作为此key的value
+    if (Array.isArray(file)) {
+      file.map((v, k) => {
+        if (k === 0) {
+          mergeFileToInfo(v, voiceInfo)
+          return
+        }
+        repeat.push(v)
+      })
+    } else {
+      mergeFileToInfo(file, voiceInfo)
     }
   })
+
+  // 清理多余上传的音声
+  repeat.forEach(v => {
+    fs.rmSync(v.path)
+  })
+
+  return waitUpload
+}

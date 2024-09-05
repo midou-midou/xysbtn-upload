@@ -7,5 +7,6 @@ export default router
   .post('/login', controllers.auth.login)
   .post('/logout', controllers.auth.logout)
   .get('/voice', controllers.voice.listVoice)
-  .get('/voice/:voicePath', controllers.voice.playVoice)
+  .get('/voice/:path', controllers.voice.playVoice)
   .post('/upload', controllers.voice.uploadVoices)
+  .delete('/voice', controllers.voice.deleteVoice)

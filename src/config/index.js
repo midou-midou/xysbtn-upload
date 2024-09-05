@@ -14,7 +14,6 @@ export default {
     voiceSizeLimit: 512 * 1024 // KB
   },
   db: {
-    url: 'postgres://xysbtn:m6MOjZzM@localhost:5432/xysbtn_db',
-    prefix: 'api_' // 默认"api_"
+    url: 'postgres://xysbtn:m6MOjZzM@localhost:5432/xysbtn_db'
   }
 }

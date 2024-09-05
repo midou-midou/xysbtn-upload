@@ -3,7 +3,7 @@ import { dataToView, mergeVoice } from "../tool/voice.js";
 import { checkAuth } from "./auth.js";
 import config from '../config/index.js'
 
-export const listVoice = async (ctx, next) => {
+export const listVoice = async ctx => {
   let service = new voiceService()
   if (!ctx.request.query.owner) {
     ctx.throw(400, 'bad request: "owner" property must be have or not empty')
@@ -12,11 +12,15 @@ export const listVoice = async (ctx, next) => {
   ctx.body = {[ctx.request.query.owner]: dataToView(voices)}
 }
 
-export const playVoice = async (ctx, next) => {
-  
+export const playVoice = async ctx => {
+  if (!ctx.params.path) {
+    ctx.throw(400, '找不到播放的音声')
+  }
+  let service = new voiceService()
+  ctx.body = await service.playVoice(ctx.params.path)
 }
 
-export const uploadVoices = async (ctx) => {
+export const uploadVoices = async ctx => {
   let {status, result} = await checkAuth(ctx)
   if (status !== 1) {
     ctx.throw(status, result)
@@ -31,14 +35,15 @@ export const uploadVoices = async (ctx) => {
   let service = new voiceService()
 
   try {
-    let uploadVoices = await service.uploadVoice(ctx.request.files)
-
-    let voices = await service.checkVoiceInfo(JSON.parse(ctx.request.body.voices))
-    voices.forEach(v => v.creator = result);
-    let respVoice = await service.batchCreateVoices(voices)
-
-    ctx.body = mergeVoice(uploadVoices, respVoice)
-
+    // 合并下音声信息和上传的音声
+    let voices = mergeVoice(ctx.request.files, JSON.parse(ctx.request.body.voices))
+    // 上传校验
+    voices = service.uploadVoice(voices)
+    // 音声信息校验
+    let checkedVoices = await service.checkVoiceInfo(voices)
+    checkedVoices.forEach(v => v.creator = result);
+    ctx.body = await service.batchCreateVoices(checkedVoices)
+    // 临时文件移动到音声文件夹
     service.renameVoices()
   } catch (error) {
     ctx.throw(500, error)
@@ -46,4 +51,18 @@ export const uploadVoices = async (ctx) => {
     service.cleanVoices()
   }
 
+}
+
+export const deleteVoice = async ctx => {
+  let {status, result} = await checkAuth(ctx)
+  if (status !== 1) {
+    ctx.throw(status, result)
+  }
+  if (!ctx.request.body.name) {
+    ctx.throw(400, '删除音声有问题，重新试试呢')
+  }
+
+  let service = new voiceService()
+  await service.deleteVoice(ctx.request.body.name, result)
+  ctx.body = '删除音声成功'
 }
