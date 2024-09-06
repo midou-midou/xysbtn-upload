@@ -1,6 +1,6 @@
-# xysbtn-upload
-虚研社按钮音声上传工具-后端  
-前端项目: [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
+# xysbtn-upload 
+### 虚研社按钮音声上传工具-后端  
+> 前端项目: [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
 
 ## 开发  
 * node版本 >= 20.11.0  
@@ -45,5 +45,8 @@ system: {
 指定自己的签名密钥，密钥位置需要和上面`docker-compose.yml`文件中配置的目录一致
 5. 运行  
 在**项目根目录**下，使用命令`docker-compose up -d`
-6. 初始化sql
-根据自己需求来，需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，可以进入`xysbtn-upload`容器执行`sql/tool/index.js`文件
+6. 初始化sql  
+如需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，可以进入`xysbtn-upload`容器使用`node`执行`sql/tool/index.js`文件
+
+## 提交
+如果有新功能请提交**dev**分支
