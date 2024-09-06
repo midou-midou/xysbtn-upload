@@ -5,8 +5,8 @@ LABEL name="xysbtn-upload"
 ENV EXPOSE_PORT 3000
 WORKDIR /app
 COPY . .
-RUN yarn global add pm2
 RUN yarn install
+RUN mkdir voices uploadTmp
 
 EXPOSE ${EXPOSE_PORT}
 ENTRYPOINT [ "yarn", "prod" ]

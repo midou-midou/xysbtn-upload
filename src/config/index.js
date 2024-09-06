@@ -13,6 +13,6 @@ export default {
     secert: fs.readFileSync(path.join(import.meta.dirname, '../../', 'secret.pub')).toString()
   },
   db: {
-    url: 'postgres://xysbtn:m6MOjZzM@localhost:5432/xysbtn_db'
+    url: 'postgres://xysbtn:m6MOjZzM@xysbtn-pg:5432/xysbtn_db'
   }
 }
