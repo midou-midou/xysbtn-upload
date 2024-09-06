@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "ignore": [
+    "build /*.js", "dist/*.js", "nodemon.json", ".git", "node_modules/**/node_modules", "gulpfile.js", "voices/*", "uploadTmp/*"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json",
+  "events": {
+    "start": "cls || clear"
+  }
+}
