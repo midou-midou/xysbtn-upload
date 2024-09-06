@@ -1,9 +1,6 @@
 import jwt from 'jsonwebtoken'
-import fs from 'fs'
-import path from 'path'
 import authService from '../services/auth.js'
-
-const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../../publicKey.pub'))
+import config from '../config/index.js'
 
 // 检查jwt是否合法
 export const checkAuth = async ctx => {
@@ -11,7 +8,7 @@ export const checkAuth = async ctx => {
   const token = ctx.cookies.get('token')
   let service = new authService()
   try {
-    const decoded = jwt.verify(token, publicKey)
+    const decoded = jwt.verify(token, config.system.secert)
     // name先从pg查，后面改到redis
     if (decoded.name && decoded.name === await service.getUploader(decoded.name)) {
       return {
@@ -33,7 +30,7 @@ export const checkAuth = async ctx => {
 }
 
 const signJwtToken = name => {
-  return jwt.sign({name}, publicKey, {expiresIn: '7d'})
+  return jwt.sign({name}, config.system.secert, {expiresIn: '7d'})
 }
 
 export const login = async (ctx, next) => {
