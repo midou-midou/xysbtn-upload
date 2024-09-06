@@ -4,6 +4,7 @@
   "author": "",
   "type": "module",
   "main": "./src/app.js",
+  "license": "MIT",
   "scripts": {
     "dev": "nodemon --config ./nodemon.json ./src/app.js",
     "prod": "cross-env NODE_ENV=production node ./src/app.js",

@@ -36,13 +36,15 @@ app
   .use(route.routes())
   .use(route.allowedMethods())
 
-// app.listen(config.system.API_server_port)
-
-const httpsServer = https.createServer({
-  cert: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.pem`)),
-  key: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.key`)),
-}, app.callback())
-
-httpsServer.listen(config.system.api_server_port)
+if (env === 'development') {
+  app.listen(config.system.api_server_port)
+} else {
+  const httpsServer = https.createServer({
+    cert: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.pem`)),
+    key: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.key`)),
+  }, app.callback())
+  
+  httpsServer.listen(config.system.api_server_port)
+}
 
 logger.info('Now start API server on port ' + config.system.api_server_port + ', You are now in ' + env + ' mode')
