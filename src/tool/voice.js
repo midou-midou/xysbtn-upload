@@ -30,7 +30,6 @@ export const dataToView = (voices = []) => {
 }
 
 export const mergeVoice = (uploadVoices = {}, voicesInfoList = []) => {
-  // 去重
   let waitUpload = []
   let repeat = []
 
@@ -42,7 +41,8 @@ export const mergeVoice = (uploadVoices = {}, voicesInfoList = []) => {
   voicesInfoList.forEach(voiceInfo => {
     let file = uploadVoices[voiceInfo.path+voiceInfo.clfyId]
     if (!file) return
-    if (waitUpload.filter(item => item.path === voiceInfo.path && item.clfyId === voiceInfo.clfyId).length > 0) return
+    // 提交的音声去重
+    if (waitUpload.filter(item => item.path === voiceInfo.path).length > 0) return
     // 如果formData key重复，会自动合并为一个数组作为此key的value
     if (Array.isArray(file)) {
       file.map((v, k) => {
@@ -50,6 +50,7 @@ export const mergeVoice = (uploadVoices = {}, voicesInfoList = []) => {
           mergeFileToInfo(v, voiceInfo)
           return
         }
+        // 提交的音声去重
         repeat.push(v)
       })
     } else {

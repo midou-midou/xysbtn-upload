@@ -13,7 +13,7 @@ import {loggerMiddleware, logger} from './middleware/logger.js'
 const app = new Koa2()
 const env = process.env.NODE_ENV // Current mode
 
-const publicKey = fs.readFileSync(path.join(import.meta.dirname, '../publicKey.pub')).toString()
+const secret = fs.readFileSync(path.join(import.meta.dirname, '../publicKey.pub')).toString()
 
 app
   .use(cors({
@@ -24,7 +24,7 @@ app
   }))
   .use(loggerMiddleware())
   .use(routeCatch())
-  .use(jwt({ secret: publicKey, cookie: 'token' }).unless({ path: [
+  .use(jwt({ secret, cookie: 'token' }).unless({ path: [
     /^\/login|\/assets|\/voice/,
     /^\/voice\/[a-zA-Z]+-[a-zA-Z0-9]+.mp3/i
   ]}))

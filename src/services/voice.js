@@ -42,6 +42,12 @@ export default function voiceService() {
         continue
       }
 
+      // 重复校验
+      if (fs.existsSync(path.join(config.system.voicePath, v.name))) {
+        v.res = '已经有人上传过这个音声了,可以试一试重命名这个音声后再上传'
+        continue
+      }
+
       v.target = path.join(config.system.voicePath, v.name)
       v.status = 'upload_success'
     }
@@ -74,10 +80,10 @@ export default function voiceService() {
         // 跳过上传校验、音声信息校验不过的音声
         if (v.status === 'upload_failed') continue
         // 数据库去重
-        let voiceRes = await voice.findOne({where: {path: v.path, clfyId: v.clfyId}, transaction: t})
+        let voiceRes = await voice.findOne({where: {path: v.path}, transaction: t})
         if (voiceRes) {
           v.status = 'upload_failed'
-          v.res = '这个分类下已经上传过这个音声了'
+          v.res = '已经有人上传过这个音声了'
           continue
         }
         v.id = randomUUID()
