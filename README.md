@@ -45,3 +45,5 @@ system: {
 指定自己的签名密钥，密钥位置需要和上面`docker-compose.yml`文件中配置的目录一致
 5. 运行  
 在**项目根目录**下，使用命令`docker-compose up -d`
+6. 初始化sql
+根据自己需求来，需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，可以进入`xysbtn-upload`容器执行`sql/tool/index.js`文件
