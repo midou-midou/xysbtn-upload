@@ -2,8 +2,6 @@ services:
   xysbtn-pg:
     image: postgres
     container_name: xysbtn-pg
-    # volumes:
-    #   - ./config/rcon.yaml:/rcon.yaml
     environment:
       - TZ=Asia/Shanghai
       - POSTGRES_USER=xysbtn
@@ -12,3 +10,27 @@ services:
     ports:
       - 5432:5432
     restart: always
+    volumes:
+      - xysbtn_db_volume:/var/lib/postgresql/data
+  xysbtn-upload:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: xysbtn-upload
+    container: xysbtn-upload
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - xysbtn_cert:/app/certs
+      - xysbtn_secret:/app/secret.pub
+
+volumes:
+  xysbtn_db_volume:
+    source: /root/xysbtn/xysbtn_upload/db
+  xysbtn_cert:
+    source: /root/xysbtn/xysbtn_upload/certs
+  xysbtn_secret:
+    source: /root/xysbtn/xysbtn_upload/secret.pub

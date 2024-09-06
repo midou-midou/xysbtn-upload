@@ -1,19 +1,12 @@
-FROM node:10-alpine
+FROM  node:20.11.1-alpine3.19
+LABEL maintainer="midoude163@163.com"
+LABEL name="xysbtn-upload"
 
 ENV EXPOSE_PORT 3000
-ENV TZ=Asia/Shanghai
-
 WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install -g @babel/cli @babel/core \
-    && npm install
-
 COPY . .
-
-RUN npm run build
+RUN yarn global add pm2
+RUN yarn install
 
 EXPOSE ${EXPOSE_PORT}
-
-ENTRYPOINT [ "node", "/app/dist/app.js" ]
+ENTRYPOINT [ "yarn", "prod" ]
