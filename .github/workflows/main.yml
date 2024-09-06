@@ -25,4 +25,7 @@ jobs:
             docker rmi xysbtn-upload
             echo "开始build新镜像"
             docker-compose up -d
+            echo "开始清理克隆的仓库"
+            cd ~
+            rm -rf xysbtn-upload
           
