@@ -10,8 +10,6 @@ import jwt from 'koa-jwt'
 import fs from 'fs'
 import {loggerMiddleware, logger} from './middleware/logger.js'
 
-// import PluginLoader from './lib/PluginLoader'
-
 const app = new Koa2()
 const env = process.env.NODE_ENV // Current mode
 
@@ -21,7 +19,7 @@ app
   .use(cors({
     origin: () => env === 'development' ? '*' : config.system.xysbtn_origin,
     allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
-    allowMethods: ['PUT', 'POST', 'GET', 'DELETE'],
+    allowMethods: ['POST', 'GET', 'DELETE'],
     credentials: false
   }))
   .use(loggerMiddleware())
@@ -32,12 +30,11 @@ app
   ]}))
   .use(KoaBody({
     multipart: true,
-    parsedMethods: ['POST', 'PUT', 'GET', 'DELETE'],
+    parsedMethods: ['POST', 'GET', 'DELETE'],
     formidable: {
       uploadDir: config.system.uploadTmpPath
     }
-  })) // Processing request
-  // .use(PluginLoader(SystemConfig.System_plugin_path))
+  }))
   .use(route.routes())
   .use(route.allowedMethods())
 

@@ -37,6 +37,9 @@ const signJwtToken = name => {
 }
 
 export const login = async (ctx, next) => {
+  if (!ctx.request.body.name) {
+    ctx.throw(400, '都没填用户名咋登录呀')
+  }
   let service = new authService()
   let {name} = await service.login(ctx.request.body)
   ctx.body =  '登录成功'
