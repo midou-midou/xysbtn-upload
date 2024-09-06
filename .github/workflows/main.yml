@@ -4,7 +4,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  xysbtn-upload-build-deploy:
     runs-on: ubuntu-22.04
     steps:
       - name: xysbtn-upload docker run
