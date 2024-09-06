@@ -15,5 +15,14 @@ jobs:
           key: ${{ secrets.PRAVITE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            whoami
-            ls -al
+            cd ~
+            echo "开始克隆"
+            git clone ${{ vars.REPO }} xysbtn-upload
+            cd xysbtn-upload
+            echo "暂定已运行的容器"
+            docker-compose down
+            echo "删除过时的镜像"
+            docker rmi xysbtn-upload
+            echo "开始build新镜像"
+            docker-compose up -d
+          
