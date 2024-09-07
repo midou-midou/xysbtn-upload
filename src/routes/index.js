@@ -10,3 +10,5 @@ export default router
   .get('/voice/:path', controllers.voice.playVoice)
   .post('/upload', controllers.voice.uploadVoices)
   .delete('/voice', controllers.voice.deleteVoice)
+  .post('/clfy', controllers.clfy.createClfy)
+  .delete('/clfy', controllers.clfy.deleteClfy)

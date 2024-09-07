@@ -20,7 +20,7 @@ export default function authService(){
         throw new Error('get uploader error, err:', err)
       })
     if (!uploader) {
-      return Promise.reject(clientError('没有找到用户名为', name, '的用户'))
+      return Promise.reject(clientError('没有找到用户名为'+name+'的用户'))
     }
     return uploader.name
   }

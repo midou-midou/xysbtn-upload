@@ -1,7 +1,6 @@
 import voiceService from "../services/voice.js";
 import { dataToView, mergeVoice } from "../tool/voice.js";
 import { checkAuth } from "./auth.js";
-import config from '../config/index.js'
 
 export const listVoice = async ctx => {
   let service = new voiceService()

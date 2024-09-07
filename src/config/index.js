@@ -10,9 +10,11 @@ export default {
     voicePath: path.join(import.meta.dirname, '../../voices'),
     uploadTmpPath: path.join(import.meta.dirname, '../../uploadTmp'),
     xysbtn_origin: 'https://voice.xuyanshe.club',
-    secert: fs.readFileSync(path.join(import.meta.dirname, '../../', 'secret.pub')).toString()
+    secert: fs.readFileSync(path.join(import.meta.dirname, '../../', 'secret.pub')).toString(),
+    allowCreateClfyCount: 5
   },
   db: {
-    url: 'postgres://xysbtn:m6MOjZzM@xysbtn-pg:5432/xysbtn_db'
+    // url: 'postgres://xysbtn:m6MOjZzM@xysbtn-pg:5432/xysbtn_db'
+    url: 'postgres://xysbtn:m6MOjZzM@localhost:5432/xysbtn_db'
   }
 }

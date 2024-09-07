@@ -60,7 +60,7 @@ export default function voiceService() {
         // 跳过上传校验不过的音声
         if (v.status === 'upload_failed') continue
         // 分类检查
-        let clfyRes = await clfy.findByPk(v.clfyId)
+        let clfyRes = await clfy.findOne({where: {id: v.clfyId}, transaction: t})
         if (!clfyRes) {
           v.res = '这个音声的分类是不是填错了'
           continue

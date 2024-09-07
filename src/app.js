@@ -13,6 +13,10 @@ import {loggerMiddleware, logger} from './middleware/logger.js'
 const app = new Koa2()
 const env = process.env.NODE_ENV // Current mode
 
+// 自动创建文件夹
+fs.existsSync(config.system.voicePath) ? '' : fs.mkdirSync(config.system.voicePath)
+fs.existsSync(config.system.uploadTmpPath) ? '' : fs.mkdirSync(config.system.uploadTmpPath)
+
 app
   .use(cors({
     origin: () => env === 'development' ? '*' : config.system.xysbtn_origin,

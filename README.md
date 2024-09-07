@@ -8,7 +8,6 @@
 1. 安装依赖
 1. 指定数据库连接 `src/config/index.js`中的`db.url`配置项
 2. 项目根目录添加文件`secret.pub`作为jwt签名密钥  
-3. 项目根目录创建`voices`和`uploadTmp`文件夹
 4. 运行`yarn dev`
 
 ## 部署
