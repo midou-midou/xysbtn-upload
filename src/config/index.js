@@ -14,7 +14,6 @@ export default {
     allowCreateClfyCount: 5
   },
   db: {
-    // url: 'postgres://xysbtn:m6MOjZzM@xysbtn-pg:5432/xysbtn_db'
-    url: 'postgres://xysbtn:m6MOjZzM@localhost:5432/xysbtn_db'
+    url: 'postgres://xysbtn:m6MOjZzM@xysbtn-pg:5432/xysbtn_db'
   }
 }
