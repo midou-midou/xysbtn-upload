@@ -1,6 +1,10 @@
 # xysbtn-upload 
-### 虚研社按钮音声上传工具-后端  
-> 前端项目: [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
+### 虚研社按钮音声-后端  
+> 上传站项目: [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
+> 虚研社按钮: [xuyanshe-voice-button](https://github.com/midou-midou/xuyanshe-voice-button)  
+
+## 功能
+* 上传、管理音声
 
 ## 开发  
 * node版本 >= 20.11.0  
