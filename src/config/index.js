@@ -16,11 +16,11 @@ export default {
     api_server_host: apiServerUrl.hostname,
     api_server_port: apiServerUrl.port,
     voiceSizeLimit: 512 * 1024, // KB
-    voicePath: path.join(process.env.XYSBTN_WORKPLACE, 'voices'),
-    uploadTmpPath: path.join(process.env.XYSBTN_WORKPLACE, 'uploadTmp'),
+    voicePath: path.join(import.meta.dirname,'../..', 'voices'),
+    uploadTmpPath: path.join(import.meta.dirname,'../..', 'uploadTmp'),
     xysbtn_origin: 'https://voice.xuyanshe.club',
-    secret: readSecretFile(path.join(process.env.XYSBTN_WORKPLACE, 'secret')),
-    certPath: path.join(process.env.XYSBTN_WORKPLACE, 'certs'),
+    secret: readSecretFile(path.join(import.meta.dirname,'../..', 'secret')),
+    certPath: path.join(import.meta.dirname,'../..', 'certs'),
     allowCreateClfyCount: 5
   },
   db: {
