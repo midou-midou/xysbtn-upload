@@ -27,7 +27,7 @@ app
   .use(loggerMiddleware())
   .use(routeCatch())
   .use(jwt({ secret: config.system.secert, cookie: 'token' }).unless({ path: [
-    /^\/login|\/assets|\/voice/,
+    /^\/login|\/voice/,
     /^\/voice\/[a-zA-Z]+-[a-zA-Z0-9]+.mp3/i
   ]}))
   .use(KoaBody({
@@ -43,9 +43,15 @@ app
 if (env === 'development') {
   app.listen(config.system.api_server_port)
 } else {
+  if (!fs.existsSync(config.system.certPath)) {
+    logger.error('证书目录不存在:'+config.system.certPath)
+    throw new Error('证书目录不存在')
+  }
+
+  let certs = fs.readdirSync(config.system.certPath)
   const httpsServer = https.createServer({
-    cert: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.pem`)),
-    key: fs.readFileSync(path.join(import.meta.dirname, '../certs', `${config.system.api_server_host}.key`)),
+    cert: fs.readFileSync(path.join(config.system.certPath, certs.find(v => v.endsWith('.pem')))),
+    key: fs.readFileSync(path.join(config.system.certPath, certs.find(v => v.endsWith('.key')))),
   }, app.callback())
   
   httpsServer.listen(config.system.api_server_port)

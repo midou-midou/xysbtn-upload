@@ -1,55 +1,42 @@
 # xysbtn-upload 
 ### 虚研社按钮音声-后端  
-> 上传站项目: [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
-> 虚研社按钮: [xuyanshe-voice-button](https://github.com/midou-midou/xuyanshe-voice-button)  
+其他关联项目
+* 虚研社按钮 [xuyanshe-voice-button](https://github.com/midou-midou/xuyanshe-voice-button)  
+* 上传站项目 [voice-upload-panel](https://github.com/midou-midou/voice-upload-panel)  
 
 ## 功能
 * 上传、管理音声
 
-## 开发  
-* node版本 >= 20.11.0  
-### 配置  
-1. 安装依赖
-1. 指定数据库连接 `src/config/index.js`中的`db.url`配置项
-2. 项目根目录添加文件`secret.pub`作为jwt签名密钥  
-4. 运行`yarn dev`
+## 要求  
+* **node版本 >= 20.11.0**  
+## 配置  
+1. 在`.env`文件中修改  
+
+    ```dosini
+      XYSBTN_WORKPLACE = 后端读取证书、存放音声，jwt校验密钥文件的路径，必须是绝对路径
+      API_SERVER_URL = API对外访问的地址
+      PG_URL = 数据库连接URL
+    ```  
+
+2. 配置jwt校验密钥  
+`.env`文件`XYSBTN_WORKPLACE`配置项指定的目录下，创建名为`secret.pub`的文件，内容为普通字符串(自己生成密钥)  
+
+3. 证书  
+`.env`文件`XYSBTN_WORKPLACE`配置项指定的目录下，创建名为`certs`的文件夹，并把你自己的证书文件放进去  
+**注意: 证书文件要以`.pem`和`.key`结尾的**
+
 
 ## 部署
 ### Docker部署 (推荐方式)  
-1. 需要在`docker-compose.yml`中修改`xysbtn-upload`服务下的挂载目录及挂载的文件(修改成自己的目录)
-```yaml
-services:
-  ...
-  xysbtn-upload:
-    ...
-    volumes:
-      # 证书的目录
-      - /root/xysbtn/xysbtn_upload/certs:/app/certs
-      # jwt签名密钥
-      - /root/xysbtn/xysbtn_upload/secret.pub:/app/secret.pub
-      # 上传的音声
-      - /root/xysbtn/voice:/app/voices
-```
-2. 证书命名规范及添加  
-证书需要以**域名**作为名字 eg. `upload.xuyanshe.club.pem`或者`upload.xuyanshe.club.key`  
-证书需要添加到 **证书的目录** 中去(和上面`docker-compose.yml`文件中配置的目录一致)
-3. 配置域名  
-在`src/config/index.js`中配置，**配置的域名需要和证书命名一致**
-```js
-system: {
-  // 需要修改下面三个配置项 协议、域名、端口
-  api_server_type: 'https://',
-  api_server_host: 'upload.xuyanshe.club',
-  api_server_port: '3000',
-  ...
-},
-```
-4. 配置jwt签名密钥  
-指定自己的签名密钥，密钥位置需要和上面`docker-compose.yml`文件中配置的目录一致
-5. 运行  
-在**项目根目录**下，使用命令`docker-compose up -d`
-6. 初始化sql  
-如需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，可以进入`xysbtn-upload`容器使用`node`执行`sql/tool/index.js`文件
+1. 克隆项目
+2. 运行  
+在**克隆的项目根目录**下，使用命令`docker-compose up -d`
+3. 初始化sql  
+如需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，执行下面命令  
+
+    ```sh
+    docker exec xysbtn-upload node sql/tool/voicebtnJson2db.js
+    ```
 
 ## 提交
 如果有新功能请提交**dev**分支

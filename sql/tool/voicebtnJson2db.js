@@ -41,7 +41,8 @@ jsons.forEach((fileName) => {
   }
 })
 
-await auth.create({name: 'midou'}).catch(() => {throw new Error('初始化uploador错误')})
+// 这里的名字不要随便改，其他表再关联这个键
+await auth.create({name: 'midou'}).catch(err => {throw new Error('初始化uploador错误'+err)})
 
 // console.log('clfys', clfys);
 

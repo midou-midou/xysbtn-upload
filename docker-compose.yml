@@ -11,7 +11,7 @@ services:
       - 5432:5432
     restart: always
     volumes:
-      - /root/xysbtn/xysbtn_upload/db:/var/lib/postgresql/data
+      - ${XYSBTN_WORKPLACE}/db:/var/lib/postgresql/data
   xysbtn-upload:
     build:
       context: ./
@@ -28,6 +28,6 @@ services:
     links:
       - xysbtn-pg
     volumes:
-      - /root/xysbtn/xysbtn_upload/certs:/app/certs
-      - /root/xysbtn/xysbtn_upload/secret.pub:/app/secret.pub
-      - /root/xysbtn/voice:/app/voices
+      - ${XYSBTN_WORKPLACE}/certs:/app/certs
+      - ${XYSBTN_WORKPLACE}/secret.pub:/app/secret.pub
+      - ${XYSBTN_WORKPLACE}/voices:/app/voices
