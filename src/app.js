@@ -26,7 +26,7 @@ app
   }))
   .use(loggerMiddleware())
   .use(routeCatch())
-  .use(jwt({ secret: config.system.secert, cookie: 'token' }).unless({ path: [
+  .use(jwt({ secret: config.system.secret, cookie: 'token' }).unless({ path: [
     /^\/login|\/voice/,
     /^\/voice\/[a-zA-Z]+-[a-zA-Z0-9]+.mp3/i
   ]}))

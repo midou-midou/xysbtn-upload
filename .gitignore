@@ -9,5 +9,5 @@ selenium-debug.log
 logs
 voices
 uploadTmp
-secret.pub
+secret/*
 certs

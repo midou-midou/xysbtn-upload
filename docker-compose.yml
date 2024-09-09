@@ -29,5 +29,5 @@ services:
       - xysbtn-pg
     volumes:
       - ${XYSBTN_WORKPLACE}/certs:/app/certs
-      - ${XYSBTN_WORKPLACE}/secret.pub:/app/secret.pub
+      - ${XYSBTN_WORKPLACE}/secret:/app/secret
       - ${XYSBTN_WORKPLACE}/voices:/app/voices

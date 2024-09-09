@@ -1,6 +1,7 @@
 import path, { join } from 'path'
 import fs from 'fs'
 import dotenv from 'dotenv'
+import {readSecretFile} from '../tool/config.js'
 
 const envPath = path.join(import.meta.dirname, '../../.env')
 if (!fs.existsSync(envPath)) throw new Error('根目录下找不到.env文件')
@@ -18,7 +19,7 @@ export default {
     voicePath: path.join(process.env.XYSBTN_WORKPLACE, 'voices'),
     uploadTmpPath: path.join(process.env.XYSBTN_WORKPLACE, 'uploadTmp'),
     xysbtn_origin: 'https://voice.xuyanshe.club',
-    secert: fs.readFileSync(path.join(process.env.XYSBTN_WORKPLACE,  'secret.pub')).toString(),
+    secret: readSecretFile(path.join(process.env.XYSBTN_WORKPLACE, 'secret')),
     certPath: path.join(process.env.XYSBTN_WORKPLACE, 'certs'),
     allowCreateClfyCount: 5
   },

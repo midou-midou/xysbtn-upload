@@ -8,7 +8,7 @@ export const checkAuth = async ctx => {
   const token = ctx.cookies.get('token')
   let service = new authService()
   try {
-    const decoded = jwt.verify(token, config.system.secert)
+    const decoded = jwt.verify(token, config.system.secret)
     // name先从pg查，后面改到redis
     if (decoded.name && decoded.name === await service.getUploader(decoded.name)) {
       return {
@@ -30,7 +30,7 @@ export const checkAuth = async ctx => {
 }
 
 const signJwtToken = name => {
-  return jwt.sign({name}, config.system.secert, {expiresIn: '7d'})
+  return jwt.sign({name}, config.system.secret, {expiresIn: '7d'})
 }
 
 export const login = async (ctx, next) => {
