@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import authService from '../services/auth.js'
 import config from '../config/index.js'
+import { clientError } from '../tool/response.js'
 
 // 检查jwt是否合法
 export const checkAuth = async ctx => {
@@ -22,6 +23,9 @@ export const checkAuth = async ctx => {
       }
     }
   } catch (err) {
+    if (err.message === 'invalid signature') {
+      ctx.throw(clientError('小希不认可你的认证呢,重新登录看看'))
+    }
     return {
       status: 503,
       result: '解密错误'
