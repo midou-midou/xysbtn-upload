@@ -20,8 +20,9 @@ export default {
     uploadTmpPath: path.join(import.meta.dirname,'../..', 'uploadTmp'),
     xysbtn_origin: 'https://voice.xuyanshe.club',
     secret: readSecretFile(path.join(import.meta.dirname,'../..', 'secret')),
-    certPath: path.join(import.meta.dirname,'../..', 'certs'),
-    allowCreateClfyCount: 5
+    allowCreateClfyCount: 5,
+    ssl: false,
+    certPath: path.join(import.meta.dirname,'../..', 'certs')
   },
   db: {
     url: process.env.PG_URL

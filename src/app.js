@@ -40,7 +40,7 @@ app
   .use(route.routes())
   .use(route.allowedMethods())
 
-if (env === 'development') {
+if (env === 'development' || config.system.ssl) {
   app.listen(config.system.api_server_port)
 } else {
   if (!fs.existsSync(config.system.certPath)) {
