@@ -35,6 +35,6 @@ export const loggerMiddleware = () => {
     const start = new Date()
     await next()
     let end = new Date() - start
-    logger.info(`${ctx.method} ${ctx.url} ${ctx.ip} - ${end}ms`)
+    logger.info(`${ctx.method} ${ctx.url} ${ctx.ips[0] || ctx.ip} - ${end}ms`)
   }
 }

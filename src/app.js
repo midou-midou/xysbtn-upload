@@ -10,7 +10,7 @@ import jwt from 'koa-jwt'
 import fs from 'fs'
 import {loggerMiddleware, logger} from './middleware/logger.js'
 
-const app = new Koa2()
+const app = new Koa2(config.koa2)
 const env = process.env.NODE_ENV // Current mode
 
 // 自动创建文件夹

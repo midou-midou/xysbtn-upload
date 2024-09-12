@@ -26,5 +26,11 @@ export default {
   },
   db: {
     url: process.env.PG_URL
+  },
+  // koa2配置-参考官方配置
+  koa2: {
+    proxy: true,
+    // 因为nginx配置反向代理，且只有一级反向代理，所以要按照下面配置才能获得原始IP
+    maxIpsCount: 1
   }
 }
