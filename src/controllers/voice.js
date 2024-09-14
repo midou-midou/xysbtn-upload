@@ -1,13 +1,16 @@
+import jwt from 'jsonwebtoken'
 import voiceService from "../services/voice.js";
 import { dataToView, mergeVoice } from "../tool/voice.js";
 import { checkAuth } from "./auth.js";
+import config from '../config/index.js';
 
 export const listVoice = async ctx => {
   let service = new voiceService()
   if (!ctx.request.query.owner) {
     ctx.throw(400, 'bad request: "owner" property must be have or not empty')
   }
-  let voices = await service.listVoice(ctx.request.query.owner)
+  const decode = ctx.cookies.get('token') ? jwt.verify(ctx.cookies.get('token'), config.system.secret) : ''
+  let voices = await service.listVoice(ctx.request.query.owner, decode.name)
   ctx.body = {[ctx.request.query.owner]: dataToView(voices)}
 }
 

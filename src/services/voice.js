@@ -10,7 +10,7 @@ import { clientError } from "../tool/response.js";
 export default function voiceService() {
   this.tmpVoices = []
 
-  this.listVoice = async (vupName = '') => {
+  this.listVoice = async (vupName = '', user) => {
     let voices = await voice.findAll({
       attributes: ['id', 'desc', 'path', 'creator', 'owner'],
       where: {owner: vupName},
@@ -22,7 +22,20 @@ export default function voiceService() {
         logger.error('list vup voice err, err:', err)
         throw err
       })
-    return voices
+    // creator字段只填充当前用户的名字，其他人创建的音声的这个字段不填充，匿名访问都不填充这个字段
+    return voices.map(v => ({
+      id: v.id,
+      desc: v.desc,
+      path: v.path,
+      owner: v.owner,
+      creator: v.creator === user ? v.creator : '',
+      clfy: {
+        id: v.clfy.id,
+        desc: v.clfy.desc,
+        creator: v.clfy.creator === user ? v.clfy.creator : '',
+        owner: v.clfy.owner
+      }
+    }))
   }
 
   this.uploadVoice = (voices) => {
