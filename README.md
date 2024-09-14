@@ -23,7 +23,7 @@
 
 3. 证书  
 `.env`文件`XYSBTN_WORKPLACE`配置项指定的目录下，创建名为`certs`的文件夹，并把你自己的证书文件放进去  
-**注意: 证书文件要以`.pem`和`.key`结尾的**，且要在`src/config`下修改`ssl`配置项为`true``
+**注意: 证书文件要以`.pem`和`.key`结尾的**，且要在`src/config`下修改`ssl`配置项为`true`
 
 
 ## 部署
