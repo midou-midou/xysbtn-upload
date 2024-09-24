@@ -154,4 +154,22 @@ export default function voiceService() {
     }
     return fs.readFileSync(voicePath)
   }
+
+  this.updateVoiceClfy = async ({voiceId, creator, clfyId}) => {
+    let voiceRes = await voice.findOne({where: {id: voiceId}})
+    if (!voiceRes) {
+      return Promise.reject(clientError('服务器上找不到你要更新的音声呢'))
+    }
+    if (voiceRes.creator != creator) {
+      return Promise.reject(clientError('不能更新其他人的音声哦'))
+    }
+    let clfyRes = await clfy.findOne({where: {id: clfyId}})
+    if (!clfyRes) {
+      return Promise.reject(clientError('要更新的音声分类不存在'))
+    }
+    await voice.update({clfyId}, {where: {id: voiceId}})
+      .catch(err => {
+        throw new Error('update voice error, err:', err)
+      })
+  }
 };

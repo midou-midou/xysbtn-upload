@@ -12,3 +12,4 @@ export default router
   .delete('/voice', controllers.voice.deleteVoice)
   .post('/clfy', controllers.clfy.createClfy)
   .delete('/clfy', controllers.clfy.deleteClfy)
+  .put('/voice', controllers.voice.updateVoiceClfy)

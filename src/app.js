@@ -21,7 +21,7 @@ app
   .use(cors({
     origin: () => env === 'development' ? '*' : config.system.xysbtn_origin,
     allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
-    allowMethods: ['POST', 'GET', 'DELETE'],
+    allowMethods: ['POST', 'GET', 'DELETE', 'PUT'],
     credentials: false
   }))
   .use(loggerMiddleware())
@@ -32,7 +32,7 @@ app
   ]}))
   .use(KoaBody({
     multipart: true,
-    parsedMethods: ['POST', 'GET', 'DELETE'],
+    parsedMethods: ['POST', 'GET', 'DELETE', 'PUT'],
     formidable: {
       uploadDir: config.system.uploadTmpPath
     }

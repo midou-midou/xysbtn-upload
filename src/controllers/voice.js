@@ -68,3 +68,17 @@ export const deleteVoice = async ctx => {
   await service.deleteVoice(ctx.request.body.name, result)
   ctx.body = '删除音声成功'
 }
+
+export const updateVoiceClfy = async ctx => {
+  let {status, result} = await checkAuth(ctx)
+  if (status !== 1) {
+    ctx.throw(status, result)
+  }
+  if (!ctx.request.body.voiceId || !ctx.request.body.clfyId) {
+    ctx.throw(400, '更新音声有问题')
+  }
+  let {voiceId, clfyId} = ctx.request.body
+  let service = new voiceService()
+  await service.updateVoiceClfy({voiceId, clfyId, creator: result})
+  ctx.body = '更新音声成功'
+}
