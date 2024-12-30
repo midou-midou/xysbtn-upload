@@ -11,3 +11,4 @@ voices
 uploadTmp
 secret/*
 certs
+yarn-error.log

@@ -37,6 +37,9 @@
     ```sh
     docker exec xysbtn-upload node sql/tool/voicebtnJson2db.js
     ```
+    并且将音声音频文件放入项目根目录下的`voices`文件夹 (没有此文件夹可以自己创建)
+    [音频文件 提取码：8CXS](https://pan.quark.cn/s/fe0d926917e3)
+  
 
 ## 提交
 如果有新功能请提交**dev**分支
