@@ -12,3 +12,4 @@ uploadTmp
 secret/*
 certs
 db
+yarn-error.log

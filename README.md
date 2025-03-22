@@ -32,11 +32,14 @@
 2. 运行  
 在**克隆的项目根目录**下，使用命令`docker-compose up -d`
 3. 初始化sql  
-如需要使用 [虚研社按钮](https://voice.xuyanshe.club) 已有音声，执行下面命令  
+如需要使用 [虚研社按钮#102](https://github.com/midou-midou/xuyanshe-voice-button/pull/102) 已有音声，执行下面命令  
 
     ```sh
     docker exec xysbtn-upload node sql/tool/voicebtnJson2db.js
     ```
+    并且将音声音频文件放入项目根目录下的`voices`文件夹 (没有此文件夹可以自己创建)
+    [音频文件 提取码：8CXS](https://pan.quark.cn/s/fe0d926917e3)
+  
 
 ## 提交
 如果有新功能请提交**dev**分支
