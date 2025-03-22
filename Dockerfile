@@ -6,7 +6,7 @@ ENV EXPOSE_PORT 3000
 WORKDIR /app
 COPY . .
 RUN yarn install
-RUN mkdir voices uploadTmp
+RUN mkdir -p voices uploadTmp
 
 EXPOSE ${EXPOSE_PORT}
 ENTRYPOINT [ "yarn", "prod" ]
