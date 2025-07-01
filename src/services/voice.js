@@ -1,6 +1,6 @@
 import {logger} from "../middleware/logger.js";
 import { clfy, voice } from "../models/index.js";
-import fs from 'fs'
+import fs from 'fs-extra'
 import config from "../config/index.js";
 import sequelize from "../lib/sequelize.js";
 import { randomUUID } from "crypto";
@@ -114,7 +114,9 @@ export default function voiceService() {
   this.renameVoices = () => {
     this.tmpVoices.forEach(v => {
       if (v.status === 'success') {
-        fs.renameSync(v.tmpPath, v.target)
+        fs.moveSync(v.tmpPath, v.target, {
+          overwrite: true
+        })
       }
     })
   }
