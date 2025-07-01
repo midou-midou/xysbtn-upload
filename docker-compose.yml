@@ -31,3 +31,4 @@ services:
       - ${XYSBTN_WORKPLACE}/certs:/app/certs
       - ${XYSBTN_WORKPLACE}/secret:/app/secret
       - ${XYSBTN_WORKPLACE}/voices:/app/voices
+      - ${XYSBTN_WORKPLACE}/uploadTmp:/app/uploadTmp

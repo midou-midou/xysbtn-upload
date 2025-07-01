@@ -129,9 +129,6 @@ export default function voiceService() {
   }
 
   this.deleteVoice = async (name, creator) => {
-    if (!fs.existsSync(path.join(config.system.voicePath, name))) {
-      return Promise.reject(clientError('服务器上找不到你要删除的音声呢'))
-    }
     let voiceRes = await voice.findOne({where: {path: name}})
     if (!voiceRes) {
       return Promise.reject(clientError('服务器上找不到你要删除的音声呢'))
@@ -144,7 +141,9 @@ export default function voiceService() {
         throw new Error('delete voice error, err:', err)
       })
     // 音声文件删除
-    fs.rmSync(path.join(config.system.voicePath, name))
+    if (fs.existsSync(path.join(config.system.voicePath, name))) {
+      fs.rmSync(path.join(config.system.voicePath, name))
+    }
   }
 
   this.playVoice = async (name) => {
