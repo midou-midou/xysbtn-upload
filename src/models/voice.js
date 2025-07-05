@@ -40,6 +40,4 @@ const voiceModel = sequelize.define('voice', {
   timestamps: false
 })
 
-voiceModel.belongsTo(clfyModel, {foreignKey: 'clfyId', targetKey: 'id'})
-
 export default voiceModel

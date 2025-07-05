@@ -11,11 +11,12 @@ export default function voiceService() {
   this.tmpVoices = []
 
   this.listVoice = async (vupName = '', user) => {
-    let voices = await voice.findAll({
-      attributes: ['id', 'desc', 'path', 'creator', 'owner'],
+    let voices = await clfy.findAll({
+      // attributes: ['id', 'desc', 'path', 'creator', 'owner'],
       where: {owner: vupName},
       include: [{
-        model: clfy
+        model: voice,
+        require: false
       }]
     })
       .catch((err) => {
@@ -24,17 +25,18 @@ export default function voiceService() {
       })
     // creator字段只填充当前用户的名字，其他人创建的音声的这个字段不填充，匿名访问都不填充这个字段
     return voices.map(v => ({
-      id: v.id,
-      desc: v.desc,
-      path: v.path,
-      owner: v.owner,
-      creator: v.creator === user ? v.creator : '',
       clfy: {
-        id: v.clfy.id,
-        desc: v.clfy.desc,
-        creator: v.clfy.creator === user ? v.clfy.creator : '',
-        owner: v.clfy.owner
-      }
+        id: v.id,
+        desc: v.desc,
+        creator: v.creator === user ? v.creator : '',
+        owner: v.owner,
+      },
+      voice: v.voices.map(voice => ({
+        id: voice.id,
+        desc: voice.desc,
+        path: voice.path,
+        creator: voice.creator === user ? voice.creator : '',
+      }))
     }))
   }
 

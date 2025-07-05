@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import voiceService from "../services/voice.js";
-import { dataToView, mergeVoice } from "../tool/voice.js";
+import { mergeVoice } from "../tool/voice.js";
 import { checkAuth } from "./auth.js";
 import config from '../config/index.js';
 
@@ -11,7 +11,7 @@ export const listVoice = async ctx => {
   }
   const decode = ctx.cookies.get('token') ? jwt.verify(ctx.cookies.get('token'), config.system.secret) : ''
   let voices = await service.listVoice(ctx.request.query.owner, decode.name)
-  ctx.body = {[ctx.request.query.owner]: dataToView(voices)}
+  ctx.body = {[ctx.request.query.owner]: voices}
 }
 
 export const playVoice = async ctx => {
