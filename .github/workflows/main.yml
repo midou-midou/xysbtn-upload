@@ -1,12 +1,15 @@
 name: Build & Deploy to Aliyun
 on:
-  push: 
-    branches: [main]
-    paths-ignore:
-      - '*.md'
-      - 'nodemon.json'
-      - '.gitignore'
-      - '.babelrc'
+  # 手动触发工作流
+  workflow_dispatch:
+  # 以下为push后自动触发，如需要请参考下面配置
+  # push: 
+  #   branches: [main]
+  #   paths-ignore:
+  #     - '*.md'
+  #     - 'nodemon.json'
+  #     - '.gitignore'
+  #     - '.babelrc'
 
 jobs:
   xysbtn-upload-build-deploy:
